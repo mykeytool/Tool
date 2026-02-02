@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Znrox modz key</title>
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+minimum-scale=1.0,
+user-scalable=no">
+
+<style>
+html,body{
+    width:100%;
+    height:100%;
+    margin:0;
+    overflow:hidden;
+    background:radial-gradient(circle at top,#00f6ff,#050012,#000);
+    font-family:Segoe UI,Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* MORE ZOOM */
+.wrapper{
+    transform:scale(1.35);
+}
+
+/* FRAME */
+.frame{
+    width:300px;
+    height:600px;
+    border-radius:26px;
+    padding:18px;
+    background:linear-gradient(145deg,#050b1e,#000);
+    box-shadow:
+        0 0 40px #00f6ff,
+        inset 0 0 28px rgba(255,255,255,.08);
+    border:1px solid rgba(0,255,255,.5);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.title{
+    text-align:center;
+    font-size:20px;
+    font-weight:900;
+    color:#e9ffff;
+    text-shadow:0 0 14px #00ffff;
+}
+
+.card{
+    background:rgba(0,0,0,.65);
+    border-radius:18px;
+    padding:14px;
+    box-shadow:
+        inset 0 0 18px rgba(0,255,255,.3),
+        0 14px 34px rgba(0,0,0,.95);
+    border:1px solid rgba(0,255,255,.4);
+}
+
+/* SERVER SELECT */
+select{
+    width:100%;
+    padding:13px;
+    border-radius:14px;
+    background:#050d1f;
+    color:#fff;
+    font-size:14px;
+    font-weight:700;
+    border:1px solid #00f6ff;
+    outline:none;
+}
+
+/* BUTTONS */
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:20px;
+    font-size:16px;
+    font-weight:900;
+    color:#000;
+    background:linear-gradient(90deg,#00f6ff,#7f5cff,#ff00ff);
+    box-shadow:0 0 26px #00ffff;
+}
+
+.copy-btn{
+    width:90%;
+    background:linear-gradient(90deg,#00ff88,#00f6ff);
+}
+
+/* LOG */
+.log{
+    height:115px;
+    overflow-y:auto;
+    font-family:monospace;
+    font-size:13px;
+    color:#9ff;
+}
+
+.log::-webkit-scrollbar{width:6px;}
+.log::-webkit-scrollbar-thumb{
+    background:linear-gradient(#00ffff,#7f5cff);
+    border-radius:10px;
+}
+
+/* KEY CARD */
+.key-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+}
+
+.keybox{
+    width:90%;
+    padding:13px;
+    border-radius:14px;
+    background:#000;
+    color:#00ffea;
+    font-size:14px;
+    font-weight:700;
+    border:1px solid #00ffff;
+    text-align:center;
+    outline:none;
+    box-shadow:inset 0 0 14px rgba(0,255,255,.45);
+}
+
+.toast{
+    font-size:12px;
+    color:#0f0;
+    display:none;
+}
+
+.footer{
+    text-align:center;
+    font-size:12px;
+    color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="frame">
+
+    <div class="title">ZNROX MODZ LOGIN KEY</div>
+
+    <!-- SERVER OPTION -->
+    <div class="card">
+        <select id="server">
+            <option>SERVER 1</option>
+            <option>SERVER 2</option>
+            <option>SERVER 3 VIP</option>
+        </select>
+    </div>
+
+    <button onclick="verify()">VERIFY IDENTITY</button>
+
+    <div class="card">
+        <div class="title" style="font-size:14px">SYSTEM </div>
+        <div class="log" id="log">
+            [System] Initializing...<br>
+            [System] Waiting for authorization...
+        </div>
+    </div>
+
+    <div class="card key-card">
+        <input id="keyBox" class="keybox" value="generate key" readonly>
+        <button class="copy-btn" onclick="copyKey()">COPY KEY</button>
+        <div class="toast" id="toast">✔ Key Copied Successfully</div>
+    </div>
+
+    <div class="footer">Secure • Encrypted • Live Server</div>
+
+</div>
+</div>
+
+<script>
+let currentKey="";
+
+function speak(text){
+    let v=speechSynthesis.getVoices();
+    let voice=v.find(x=>x.lang.includes("en"))||v[0];
+    let u=new SpeechSynthesisUtterance(text);
+    u.voice=voice;
+    u.rate=0.85;
+    u.pitch=0.8;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+}
+
+function generateKey(){
+    let c="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let p="";
+    for(let i=0;i<4;i++) p+=c[Math.floor(Math.random()*c.length)];
+    return "ZNroX-ModZ-"+p+"-H12";
+}
+
+function verify(){
+    let log=document.getElementById("log");
+    let box=document.getElementById("keyBox");
+    let server=document.getElementById("server").value;
+
+    currentKey="";
+    box.value="wait 15nd Generate key";
+
+    log.innerHTML+=`<br>[System] Selected ${server}`;
+    speak("Verifying identity. Please wait fifteen seconds.");
+
+    let sec=15;
+    let t=setInterval(()=>{
+        log.innerHTML+=`<br>[System] Processing... ${sec}s`;
+        log.scrollTop=log.scrollHeight;
+        sec--;
+        if(sec<0){
+            clearInterval(t);
+            currentKey=generateKey();
+            log.innerHTML+="<br>[System] Access granted ✔";
+            box.value=currentKey;
+            speak("Access granted. Secure key generated.");
+        }
+    },1000);
+}
+
+/* COPY – ANDROID SAFE */
+function copyKey(){
+    if(!currentKey) return;
+
+    let box=document.getElementById("keyBox");
+    box.select();
+    box.setSelectionRange(0,99999);
+
+    let ok=false;
+    try{ ok=document.execCommand("copy"); }catch(e){}
+
+    if(!ok && navigator.clipboard){
+        navigator.clipboard.writeText(currentKey).then(showToast);
+    }else{
+        showToast();
+    }
+}
+
+function showToast(){
+    let t=document.getElementById("toast");
+    t.style.display="block";
+    speak("Key copied successfully");
+    setTimeout(()=>t.style.display="none",2000);
+}
+</script>
+
+</body>
+</html>
